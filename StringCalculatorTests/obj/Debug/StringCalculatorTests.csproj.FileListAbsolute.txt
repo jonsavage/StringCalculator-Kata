@@ -1,0 +1,9 @@
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\obj\Debug\StringCalculatorTests.csprojResolveAssemblyReference.cache
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\bin\Debug\StringCalculatorTests.dll
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\bin\Debug\StringCalculatorTests.pdb
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\bin\Debug\nunit.framework.dll
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\bin\Debug\StringCalculator.exe
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\bin\Debug\StringCalculator.pdb
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\bin\Debug\nunit.framework.xml
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\obj\Debug\StringCalculatorTests.dll
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculatorTests\obj\Debug\StringCalculatorTests.pdb

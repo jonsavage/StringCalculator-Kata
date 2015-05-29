@@ -1,0 +1,6 @@
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculator\bin\Debug\StringCalculator.exe.config
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculator\bin\Debug\StringCalculator.exe
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculator\bin\Debug\StringCalculator.pdb
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculator\obj\Debug\StringCalculator.csprojResolveAssemblyReference.cache
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculator\obj\Debug\StringCalculator.exe
+c:\users\jsavage\documents\visual studio 2013\Projects\StringCalculator\StringCalculator\obj\Debug\StringCalculator.pdb
