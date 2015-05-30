@@ -11,36 +11,32 @@ namespace StringCalculator
     public class Calculator
     {
         private char[] defaultDelimiter = new char[] {','};
+        private char[] additionalDelimiter = 
 
-        public int Add(string s)
+        public int Add(string inputString)
         {
             char[] delimiters;
-
-            if (CustomDelimiterSet(s))
+            
+            if (CustomDelimiterSpecified(inputString))
             {
-                delimiters = GetCustomDelimiter(s).Concat(defaultDelimiter).ToArray();
+                delimiters = GetCustomDelimiter(inputString).Concat(defaultDelimiter).ToArray();
             }
             else
             {
                 delimiters = defaultDelimiter;
             }
 
+            string a = RemoveDelimiterInfo(inputString);
+            string[] numbers = RemoveDelimiterInfo(inputString).Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
 
-
-            //char[] delimiters = GetDelimiters(s);
-
-            string a = RemoveDelimiterInfo(s);
-            String[] input = RemoveDelimiterInfo(s).Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-
-            CheckForNegativeNumbers(input);
+            CheckForNegativeNumbers(numbers);
 
 
             int sum = 0;
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < numbers.Length; i++)
             {       
-                sum += int.Parse(input[i]);
+                sum += int.Parse(numbers[i]);
             }
 
             return sum;
@@ -73,7 +69,7 @@ namespace StringCalculator
             }
         }
 
-        public bool CustomDelimiterSet(string input)
+        public bool CustomDelimiterSpecified(string input)
         {
             return Regex.IsMatch(input, @"//.{1,2}\n");
         }
