@@ -16,6 +16,56 @@ namespace StringCalculatorTests
         Calculator calculator = new Calculator();
 
 
+
+        [Test, Combinatorial]
+        public void MyTest(
+            [Values("0","1","2")] string s
+            )
+        {
+            var x = calculator.Add(s);
+
+            return x;
+        }
+
+
+        [Test]
+        [TestCase("", Result = 0)]                // Step 1
+        public int Test_Empty_String(string s)
+        {
+            var x = calculator.Add(s);
+
+            return x;
+        }
+
+        [Test]
+        [TestCase("", Result = 0)]
+        [TestCase("0", Result = 0)]
+        [TestCase("1", Result = 1)]
+        public int Test_Add_One_Number(string s)
+        {
+            var x = calculator.Add(s);
+
+            return x;
+        }
+
+        [Test]
+        [TestCase(",", Result = 0)]
+        [TestCase("0,0", Result = 0)]
+        [TestCase("0,1", Result = 1)]
+        [TestCase("1,2", Result = 8)] // Step 2
+        [TestCase("1\n2,3", Result = 6)]          // Step 3
+        [TestCase("1\n2,3,4,5", Result = 15)]
+        [TestCase("//;\n1;2", Result = 3)]         // Step 4
+        [TestCase("//1\n213", Result = 5)]
+        [TestCase("//\t\n2\t3", Result = 5)]
+        [TestCase("//\t\n2,3\n5", Result = 5)]
+        public int Test_Add_Two_Numbers(string s)
+        {
+            var x = calculator.Add(s);
+
+            return x;
+        }
+
         [Test]
         [TestCase("", Result = 0)]                // Step 1
         [TestCase("1", Result = 1)]
@@ -23,7 +73,7 @@ namespace StringCalculatorTests
         [TestCase("1,2", Result = 3)]
         [TestCase("1,1,1,1,1,1,1,1", Result = 8)] // Step 2
         [TestCase("1\n2,3", Result = 6)]          // Step 3
-        [TestCase("1\n2,3,4,5", Result = 15)]                    
+        [TestCase("1\n2,3,4,5", Result = 15)]
         [TestCase("//;\n1;2", Result = 3)]         // Step 4
         [TestCase("//1\n213", Result = 5)]
         [TestCase("//\t\n2\t3", Result = 5)]
@@ -34,6 +84,8 @@ namespace StringCalculatorTests
 
             return x;
         }
+
+
 
         [Test]
         [TestCase("-1", "-1")]
