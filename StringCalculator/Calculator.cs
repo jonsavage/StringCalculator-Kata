@@ -10,69 +10,115 @@ namespace StringCalculator
 {
     public class Calculator
     {
-        private char[] defaultDelimiter = new char[] {','};
-        private char[] additionalDelimiter = 
+        
 
         public int Add(string inputString)
         {
-            char[] delimiters;
-            
-            if (CustomDelimiterSpecified(inputString))
+            string numbers = inputString;
+            char[] delimiters = new char[] { ',', '\n' };
+
+            if (DelimiterSpecified(inputString))
             {
-                delimiters = GetCustomDelimiter(inputString).Concat(defaultDelimiter).ToArray();
+                delimiters = GetSpecifiedDelimiter(inputString);
+                numbers = RemoveDelimiterSpecificationLine(inputString);
             }
-            else
-            {
-                delimiters = defaultDelimiter;
-            }
-
-            string a = RemoveDelimiterInfo(inputString);
-            string[] numbers = RemoveDelimiterInfo(inputString).Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-
-            CheckForNegativeNumbers(numbers);
 
 
             int sum = 0;
-            for (int i = 0; i < numbers.Length; i++)
-            {       
-                sum += int.Parse(numbers[i]);
+            foreach(string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
+            {
+                sum += ConvertToInt(number);
+                
             }
-
             return sum;
         }
 
-        public char[] GetCustomDelimiter(string input)
+        public int ConvertToInt(string number)
         {
-            
-            {
-                return new char[] {input.Substring(2, input.IndexOf('\n')).ToCharArray()[0], '\n', ','};
-            }
-
-            return new char[] {' ', ',', '\n'};
+            return int.Parse(number);
         }
 
-        public string RemoveDelimiterInfo(string input)
+        public bool DelimiterSpecified(string inputString)
         {
-            if (input.IndexOf("//") == 0)
-            {
-                return input.Substring(input.LastIndexOf("\n"));
-            }
-            return input;
+            return Regex.IsMatch(inputString, @"//.{1,2}\n");
         }
 
-        public static void CheckForNegativeNumbers(IEnumerable<int> numbers)
+        public char[] GetSpecifiedDelimiter(string inputString)
         {
-            if (numbers.Any(number => number < 0))
-            {
-                throw new ArgumentException("neg");
-            }
+            return new char[] { inputString.Substring(2, inputString.LastIndexOf('\n')).ToCharArray()[0]};
         }
 
-        public bool CustomDelimiterSpecified(string input)
+        public string RemoveDelimiterSpecificationLine(string inputString)
         {
-            return Regex.IsMatch(input, @"//.{1,2}\n");
+            return inputString.Substring(inputString.IndexOf('\n'));
         }
-        
     }
+
+    //public class Calculator
+    //{
+    //    private char[] defaultDelimiter = new char[] {','};
+    //    private char[] additionalDelimiter = 
+
+    //    public int Add(string inputString)
+    //    {
+    //        char[] delimiters;
+            
+    //        if (CustomDelimiterSpecified(inputString))
+    //        {
+    //            delimiters = GetCustomDelimiter(inputString).Concat(defaultDelimiter).ToArray();
+    //        }
+    //        else
+    //        {
+    //            delimiters = defaultDelimiter;
+    //        }
+
+    //        string a = RemoveDelimiterInfo(inputString);
+    //        string[] numbers = RemoveDelimiterInfo(inputString).Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+
+    //        CheckForNegativeNumbers(numbers);
+
+
+    //        int sum = 0;
+    //        for (int i = 0; i < numbers.Length; i++)
+    //        {       
+    //            sum += int.Parse(numbers[i]);
+    //        }
+
+    //        return sum;
+    //    }
+
+    //    public char[] GetCustomDelimiter(string input)
+    //    {
+            
+    //        {
+    //            return new char[] {input.Substring(2, input.IndexOf('\n')).ToCharArray()[0], '\n', ','};
+    //        }
+
+    //        return new char[] {' ', ',', '\n'};
+    //    }
+
+    //    public string RemoveDelimiterInfo(string input)
+    //    {
+    //        if (input.IndexOf("//") == 0)
+    //        {
+    //            return input.Substring(input.LastIndexOf("\n"));
+    //        }
+    //        return input;
+    //    }
+
+    //    public static void CheckForNegativeNumbers(IEnumerable<int> numbers)
+    //    {
+    //        if (numbers.Any(number => number < 0))
+    //        {
+    //            throw new ArgumentException("neg");
+    //        }
+    //    }
+
+    //    public bool CustomDelimiterSpecified(string input)
+    //    {
+    //        return Regex.IsMatch(input, @"//.{1,2}\n");
+    //    }
+        
+    //}
 }
