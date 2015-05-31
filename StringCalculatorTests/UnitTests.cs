@@ -96,15 +96,23 @@ namespace StringCalculatorTests
         [TestCase("\\\n\n1\n-1\n-2\n3", "-1,-2")]
         public void Test_NegativesThrowArguementExceptionWithMessage(string input, string expectedMessage)
         {
-            //Assert.Throws<ArgumentException>(
-            //    () => calculator.Add(input),
-            //    "exception"
-            //);
 
             var exception = Assert.Throws<ArgumentException>(() => calculator.Add(input));
 
             Assert.AreEqual(expectedMessage, exception.Message);
 
         }
+
+        [Test]
+        [TestCase("1,1000", Result = 1001)]
+        [TestCase("1,1001", Result = 1)]
+        [TestCase("1001,1", Result = 1)]
+        public int Test_IngoreNumbersGreaterThanOneThousand(string input)
+        {
+            var x = calculator.Add(input);
+
+            return x;
+        }
+
     }
 }

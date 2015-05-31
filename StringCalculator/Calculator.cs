@@ -28,7 +28,7 @@ namespace StringCalculator
             int sum = 0;
             foreach(string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
             {
-                sum += ConvertToInt(number);
+                sum += ConvertToInt(number) <= 1000 ? ConvertToInt(number) : 0;
             }
             return sum;
         }
