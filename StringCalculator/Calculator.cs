@@ -10,7 +10,7 @@ namespace StringCalculator
 {
     public class Calculator
     {
-        
+        private string headerFormat = @"^//(?s:.)\n";
 
         public int Add(string inputString)
         {
@@ -40,7 +40,7 @@ namespace StringCalculator
 
         public bool DelimiterSpecified(string inputString)
         {
-            return Regex.IsMatch(inputString, @"//.{1,2}\n");
+            return Regex.IsMatch(inputString, headerFormat);
         }
 
         public char[] GetSpecifiedDelimiter(string inputString)
@@ -50,7 +50,9 @@ namespace StringCalculator
 
         public string RemoveDelimiterSpecificationLine(string inputString)
         {
-            return inputString.Substring(inputString.IndexOf('\n'));
+            var a = Regex.Match(inputString, headerFormat);
+            int headerLength = Regex.Match(inputString, headerFormat).Length;
+            return inputString.Substring(headerLength);
         }
     }
 

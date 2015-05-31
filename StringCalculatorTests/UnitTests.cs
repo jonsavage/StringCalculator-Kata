@@ -76,6 +76,8 @@ namespace StringCalculatorTests
         [TestCase("//.\n2.3", Result = 5)]
         [TestCase("//\t\n1\t2", Result = 3)]
         [TestCase("//\n\n1\n2", Result = 3)]
+        [TestCase("//\\\n1\\2", Result = 3)]
+        [TestCase("//\v\n1\v2", Result = 3)]
         public int Test_UserSpecifiedDelimiter(string input)
         {
             var x = calculator.Add(input);
@@ -87,7 +89,7 @@ namespace StringCalculatorTests
         //[TestCase("-1", "-1")]
         //[TestCase("-1,-2", "-1,-2")]
         //[TestCase("-1,1,-1", "-1,-1,-1")]
-        //public void TestNegatives(string input, string expectedMessage)
+        //public void Test_NegativesThrowArguementExceptionWithMessage(string input, string expectedMessage)
         //{
         //    Assert.Throws<ArgumentException>(
         //        () => calculator.Add(input)
