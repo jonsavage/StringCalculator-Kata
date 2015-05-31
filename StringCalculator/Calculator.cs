@@ -23,37 +23,68 @@ namespace StringCalculator
                 numbers = RemoveDelimiterSpecificationLine(inputString);
             }
 
+            CheckForNegatives(numbers);
 
             int sum = 0;
             foreach(string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
             {
                 sum += ConvertToInt(number);
-                
             }
             return sum;
         }
 
-        public int ConvertToInt(string number)
+        private int ConvertToInt(string number)
         {
             return int.Parse(number);
         }
 
-        public bool DelimiterSpecified(string inputString)
+        private bool DelimiterSpecified(string inputString)
         {
             return Regex.IsMatch(inputString, headerFormat);
         }
 
-        public char[] GetSpecifiedDelimiter(string inputString)
+        private char[] GetSpecifiedDelimiter(string inputString)
         {
             return new char[] { inputString.Substring(2, inputString.LastIndexOf('\n')).ToCharArray()[0]};
         }
 
-        public string RemoveDelimiterSpecificationLine(string inputString)
+        private string RemoveDelimiterSpecificationLine(string inputString)
         {
             var a = Regex.Match(inputString, headerFormat);
             int headerLength = Regex.Match(inputString, headerFormat).Length;
             return inputString.Substring(headerLength);
         }
+
+        private void CheckForNegatives(string input)
+        {
+            if (Regex.IsMatch(input, @"(^|[^\d])-"))
+            {
+
+                throw new ArgumentException(GetNegatives(input));
+            }
+        }
+
+        private string GetNegatives(string input)
+        {
+
+            string negatives = "";
+
+            if (input[0] == '-')
+            {
+                negatives += Regex.Match(input, @"^-\d*") + ",";
+            }
+
+            var matches = Regex.Matches(input, @"[^\d]-\d");
+
+            
+            foreach (var match in matches)
+            {
+                negatives += match.ToString().Substring(1) + ",";
+            }
+            return negatives.Substring(0, negatives.Length-1);
+        }
+
+        
     }
 
     //public class Calculator
