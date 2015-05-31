@@ -11,6 +11,8 @@ namespace StringCalculator
     public class Calculator
     {
         private string headerFormat = @"^//(?s:.)\n";
+        //private string headerFormat = @"^//(?s:.)+\n";
+        //private char delimiter = ",";
 
         public int Add(string inputString)
         {

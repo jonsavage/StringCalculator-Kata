@@ -76,6 +76,7 @@ namespace StringCalculatorTests
         [TestCase("//.\n2.3", Result = 5)]
         [TestCase("//\t\n1\t2", Result = 3)]
         [TestCase("//\n\n1\n2", Result = 3)]
+        [TestCase("//\n\n1\n2\n3", Result = 6)]
         [TestCase("//\\\n1\\2", Result = 3)]
         [TestCase("//\v\n1\v2", Result = 3)]
         [TestCase("//-\n1-2", Result = 3)]
@@ -113,6 +114,23 @@ namespace StringCalculatorTests
 
             return x;
         }
+
+        [Test]
+        [TestCase("//..\n1..2", Result = 3)]
+        //[TestCase("//\n\n\n2\n\n3", Result = 5)]
+        //[TestCase("//\t\n1\t2", Result = 3)]
+        //[TestCase("//\n\n1\n2", Result = 3)]
+        //[TestCase("//\\\n1\\2", Result = 3)]
+        //[TestCase("//\v\n1\v2", Result = 3)]
+        //[TestCase("//-\n1-2", Result = 3)]
+        public int Test_UserSpecifiedDelimiterOfAnyLength(string input)
+        {
+            var x = calculator.Add(input);
+
+            return x;
+        }
+
+
 
     }
 }
