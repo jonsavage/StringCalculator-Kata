@@ -10,9 +10,12 @@ namespace StringCalculator
 {
     public class Calculator
     {
+
         private string headerFormat = @"^//(?s:.)\n";
+        private string delimiterFormat = @"(?<=^//)(?s:.)(?=\n)";
         //private string headerFormat = @"^//(?s:.)+\n";
-        //private char delimiter = ",";
+        private char[] defaultDelimiters = {',', '\n'};
+        private string specifiedDelimiter;
 
         public int Add(string inputString)
         {
@@ -21,6 +24,12 @@ namespace StringCalculator
 
             if (DelimiterSpecified(inputString))
             {
+                var a = Regex.Match(inputString, delimiterFormat);
+
+
+                var specifiedDelimiter = GetSpecifiedDelimiter(inputString);
+                //numbers = NormalizeDelimiter(inputString, specifiedDelimiter);
+
                 delimiters = GetSpecifiedDelimiter(inputString);
                 numbers = RemoveDelimiterSpecificationLine(inputString);
             }
@@ -86,7 +95,10 @@ namespace StringCalculator
             return negatives.Substring(0, negatives.Length-1);
         }
 
-        
+        private string NormalizeDelimiter(string input, string delimiter)
+        {
+            return input.Replace(delimiter, ",");
+        }
     }
 
     //public class Calculator
