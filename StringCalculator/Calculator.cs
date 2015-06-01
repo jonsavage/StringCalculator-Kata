@@ -11,11 +11,10 @@ namespace StringCalculator
     public class Calculator
     {
 
-        private string headerCaptureGroup = @"^//(?s:.)+?\n(?=\d)";
-        private string extractDelimiterCaptureGroup = @"(?<=//)(?s:.)+?(?=\n\d)";
-        private string delimiterCaptureGroup = @"(?<=^//)(?s:.)+?(?=\n\d)";
+        private const string HEADER_CAPTURE_REGEX = @"^//(?s:.)+?\n(?=-?\d)";
+        private const string DELIMITER_CAPTURE_REGEX = @"(?<=//)(?s:.)+?(?=\n\D?\d)";
 
-        private char[] defaultDelimiters = {',', '\n'};
+        private readonly char[] defaultDelimiters = {',', '\n'};
         private string specifiedDelimiter;
 
         public int Add(string inputString)
@@ -46,18 +45,18 @@ namespace StringCalculator
 
         private bool DelimiterSpecified(string inputString)
         {
-            return Regex.IsMatch(inputString, headerCaptureGroup);
+            return Regex.IsMatch(inputString, HEADER_CAPTURE_REGEX);
         }
 
         private char[] GetSpecifiedDelimiter(string inputString)
         {
-            specifiedDelimiter = Regex.Match(inputString, extractDelimiterCaptureGroup).ToString();
+            specifiedDelimiter = Regex.Match(inputString, DELIMITER_CAPTURE_REGEX).ToString();
             return specifiedDelimiter.ToCharArray();
         }
 
         private string RemoveDelimiterSpecificationLine(string inputString)
         {
-            int headerLength = Regex.Match(inputString, headerCaptureGroup).Length;
+            int headerLength = Regex.Match(inputString, HEADER_CAPTURE_REGEX).Length;
             return inputString.Substring(headerLength);
         }
 
@@ -65,7 +64,7 @@ namespace StringCalculator
         {
             foreach (char delimiter in delimiters)
             {
-                if (Regex.IsMatch(input, @"(^|\d\D)-\d"))
+                if (Regex.IsMatch(input, @"(^|\d\D+?)-\d"))
                 {
                     throw new ArgumentException(GetNegatives(input));
                 }

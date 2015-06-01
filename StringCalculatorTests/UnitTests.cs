@@ -96,6 +96,7 @@ namespace StringCalculatorTests
         [TestCase("//-\n1--1-1", "-1")]
         [TestCase("//\n\n1\n-1", "-1")]
         [TestCase("//\n\n1\n-1\n-2\n3", "-1,-2")]
+        [TestCase("//;*...\n-1", "-1")]
         public void Test_NegativesThrowArguementExceptionWithMessage(string input, string expectedMessage)
         {
 
@@ -129,7 +130,7 @@ namespace StringCalculatorTests
         }
 
         [Test]
-        [TestCase("//.;\n1.;2", Result = 3)]
+        [TestCase("//.;\n1.2", Result = 3)]
         [TestCase("//;;\n1;2;3", Result = 6)]
         [TestCase("//\t\n\n2\t3\n", Result = 5)]
         [TestCase("///\t\n\n1/2\t3", Result = 6)]
@@ -139,6 +140,36 @@ namespace StringCalculatorTests
             var x = calculator.Add(input);
 
             return x;
+        }
+
+        [Test]
+        [TestCase("//..::\n1..2::3", Result = 6)]
+        [TestCase("//abcd\n1ab2cd3", Result = 6)]
+        [TestCase("//;.:.\n1;.2:.3", Result = 6)]
+        [TestCase("//\t\n\v\b\n1\t\n2\v\b3", Result = 6)]
+        [TestCase("//\t\n\v\v\b\n1\t\n\v2\v\b3", Result = 6)]
+        [TestCase("//\t::\v;\n1\t::2\v;3", Result = 6)]
+        public int Test_UserSpecifiedMultipleDelimitersLongerThanOneChar(string input)
+        {
+            var x = calculator.Add(input);
+
+            return x;
+        }
+
+
+        [Test]
+        [TestCase("//.\n1.-2", "-2")]
+        [TestCase("//-;\n1--2;3", "-2")]
+        [TestCase("//-;\n1-;-2;3", "-2")]
+        [TestCase("//abcdefgh-;ij\n1fgh--2;3", "-2")]
+        //[TestCase("//-;\n1-;-2;3", "-2")]
+        public void Test_NegativesThrowArguementExceptionWithMessageWithMultipleCustomDelimiters(string input, string expectedMessage)
+        {
+
+            var exception = Assert.Throws<ArgumentException>(() => calculator.Add(input));
+
+            Assert.AreEqual(expectedMessage, exception.Message);
+
         }
     }
 }
