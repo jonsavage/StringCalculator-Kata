@@ -15,13 +15,13 @@ namespace StringCalculator
         private string extractDelimiterCaptureGroup = @"(?<=//)(?s:.)+?(?=\n\d)";
         private string delimiterCaptureGroup = @"(?<=^//)(?s:.)+?(?=\n\d)";
 
-        private string[] defaultDelimiters = {",", "\n"};
+        private char[] defaultDelimiters = {',', '\n'};
         private string specifiedDelimiter;
 
         public int Add(string inputString)
         {
             string numbers = inputString;
-            string[] delimiters = defaultDelimiters;
+            char[] delimiters = defaultDelimiters;
 
             if (DelimiterSpecified(inputString))
             {
@@ -32,7 +32,6 @@ namespace StringCalculator
             CheckForNegatives(numbers, delimiters);
 
             int sum = 0;
-            //foreach (string number in numbers.Split(new string[] {specifiedDelimiter}, StringSplitOptions.RemoveEmptyEntries))
             foreach (string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
             {
                 sum += ConvertToInt(number) <= 1000 ? ConvertToInt(number) : 0;
@@ -50,11 +49,10 @@ namespace StringCalculator
             return Regex.IsMatch(inputString, headerCaptureGroup);
         }
 
-        private string[] GetSpecifiedDelimiter(string inputString)
+        private char[] GetSpecifiedDelimiter(string inputString)
         {
             specifiedDelimiter = Regex.Match(inputString, extractDelimiterCaptureGroup).ToString();
-            var header = Regex.Match(inputString, headerCaptureGroup).ToString();
-            return new string[] { header, specifiedDelimiter};
+            return specifiedDelimiter.ToCharArray();
         }
 
         private string RemoveDelimiterSpecificationLine(string inputString)
@@ -63,11 +61,11 @@ namespace StringCalculator
             return inputString.Substring(headerLength);
         }
 
-        private void CheckForNegatives(string input, string[] delimiters)
+        private void CheckForNegatives(string input, char[] delimiters)
         {
-            foreach (string delimiter in delimiters)
+            foreach (char delimiter in delimiters)
             {
-                if (Regex.IsMatch(input, @"(" + delimiter + @"|^)-\d"))
+                if (Regex.IsMatch(input, @"(^|\d\D)-\d"))
                 {
                     throw new ArgumentException(GetNegatives(input));
                 }
@@ -92,11 +90,6 @@ namespace StringCalculator
                 negatives += match.ToString().Substring(1) + ",";
             }
             return negatives.Substring(0, negatives.Length-1);
-        }
-
-        private string NormalizeDelimiter(string input, string delimiter)
-        {
-            return input.Replace(delimiter, ",");
         }
     }
 }
