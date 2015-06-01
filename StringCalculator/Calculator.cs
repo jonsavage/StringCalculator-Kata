@@ -15,23 +15,22 @@ namespace StringCalculator
         private const string DELIMITER_CAPTURE_REGEX = @"(?<=//)(?s:.)+?(?=\n\D?\d)";
 
         private readonly char[] defaultDelimiters = {',', '\n'};
-        private string specifiedDelimiter;
 
         public int Add(string inputString)
         {
-            string numbers = inputString;
+            string numbersToAdd = inputString;
             char[] delimiters = defaultDelimiters;
 
             if (DelimiterSpecified(inputString))
             {
                 delimiters = GetSpecifiedDelimiter(inputString);
-                numbers = RemoveDelimiterSpecificationLine(inputString);
+                numbersToAdd = RemoveDelimiterSpecificationLine(inputString);
             }
 
-            CheckForNegatives(numbers, delimiters); // Short-circuits with ArgumentException
+            CheckForNegatives(numbersToAdd, delimiters); // Short-circuits with ArgumentException
 
             int sum = 0;
-            foreach (string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string number in numbersToAdd.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
             {
                 sum += ConvertToInt(number) <= 1000 ? ConvertToInt(number) : 0;
             }
@@ -50,7 +49,7 @@ namespace StringCalculator
 
         private char[] GetSpecifiedDelimiter(string inputString)
         {
-            specifiedDelimiter = Regex.Match(inputString, DELIMITER_CAPTURE_REGEX).ToString();
+            var specifiedDelimiter = Regex.Match(inputString, DELIMITER_CAPTURE_REGEX).ToString();
             return specifiedDelimiter.ToCharArray();
         }
 
@@ -73,10 +72,8 @@ namespace StringCalculator
 
         private string GetNegatives(string input)
         {
-
             string negatives = "";
 
-            //var matches = Regex.Matches(input, @"[^\d]-\d");
             var matches = Regex.Matches(input, @"(?<=^|\D)-\d");
             
             foreach (var match in matches)
