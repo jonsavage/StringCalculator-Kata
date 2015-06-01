@@ -18,7 +18,7 @@ namespace StringCalculatorTests
 
 
         [Test]
-        [TestCase("", Result = 0)]                // Step 1
+        [TestCase("", Result = 0)]
         public int Test_Empty_String(string input)
         {
             var x = calculator.Add(input);
@@ -80,6 +80,7 @@ namespace StringCalculatorTests
         [TestCase("//\\\n1\\2", Result = 3)]
         [TestCase("//\v\n1\v2", Result = 3)]
         [TestCase("//-\n1-2", Result = 3)]
+        [TestCase("//-\n1-2-3", Result = 6)]
         public int Test_UserSpecifiedDelimiter(string input)
         {
             var x = calculator.Add(input);
@@ -91,10 +92,10 @@ namespace StringCalculatorTests
         [TestCase("-1", "-1")]
         [TestCase("-1,-2", "-1,-2")]
         [TestCase("-1,1", "-1")]
-        [TestCase("\\-\n1--1", "-1")]
-        [TestCase("\\-\n1--1-1", "-1")]
-        [TestCase("\\\n\n1\n-1", "-1")]
-        [TestCase("\\\n\n1\n-1\n-2\n3", "-1,-2")]
+        [TestCase("//-\n1--1", "-1")]
+        [TestCase("//-\n1--1-1", "-1")]
+        [TestCase("//\n\n1\n-1", "-1")]
+        [TestCase("//\n\n1\n-1\n-2\n3", "-1,-2")]
         public void Test_NegativesThrowArguementExceptionWithMessage(string input, string expectedMessage)
         {
 
@@ -129,14 +130,14 @@ namespace StringCalculatorTests
 
         [Test]
         [TestCase("//.;\n1.;2", Result = 3)]
+        [TestCase("//;;\n1;2;3", Result = 3)]
+        [TestCase("//\t\n\n\t2\t3\n", Result = 5)]
+        [TestCase("////\n\n1//\n2//\n3", Result = 6)]
         public int Test_UserSpecifiedMultipleDelimiters(string input)
         {
             var x = calculator.Add(input);
 
             return x;
         }
-
-
-
     }
 }
