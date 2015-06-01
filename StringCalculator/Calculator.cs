@@ -11,23 +11,24 @@ namespace StringCalculator
     public class Calculator
     {
 
-        private string headerFormat = @"^//(?s:.)\n";
-        private string delimiterFormat = @"(?<=^//)(?s:.)(?=\n)";
-        //private string headerFormat = @"^//(?s:.)+\n";
+        private string headerCaptureGroup = @"^//(?s:.)+?(?=\n\d)";
+        private string extractDelimiterCaptureGroup = @"(?<=//)(?s:.)+?(?=\n\d)";
+        private string delimiterCaptureGroup = @"(?<=^//)(?s:.)+?(?=\n\d)";
+
         private char[] defaultDelimiters = {',', '\n'};
         private string specifiedDelimiter;
 
         public int Add(string inputString)
         {
             string numbers = inputString;
-            char[] delimiters = new char[] { ',', '\n' };
+            char[] delimiters = new char[] {',', '\n'};
 
             if (DelimiterSpecified(inputString))
             {
-                var a = Regex.Match(inputString, delimiterFormat);
+                var a = Regex.Match(inputString, delimiterCaptureGroup);
 
 
-                var specifiedDelimiter = GetSpecifiedDelimiter(inputString);
+                //var specifiedDelimiter = GetSpecifiedDelimiter(inputString);
                 //numbers = NormalizeDelimiter(inputString, specifiedDelimiter);
 
                 delimiters = GetSpecifiedDelimiter(inputString);
@@ -37,7 +38,8 @@ namespace StringCalculator
             CheckForNegatives(numbers);
 
             int sum = 0;
-            foreach(string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string number in numbers.Split(new string[] {specifiedDelimiter}, StringSplitOptions.RemoveEmptyEntries))
+            //foreach (string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
             {
                 sum += ConvertToInt(number) <= 1000 ? ConvertToInt(number) : 0;
             }
@@ -51,18 +53,19 @@ namespace StringCalculator
 
         private bool DelimiterSpecified(string inputString)
         {
-            return Regex.IsMatch(inputString, headerFormat);
+            return Regex.IsMatch(inputString, headerCaptureGroup);
         }
 
         private char[] GetSpecifiedDelimiter(string inputString)
         {
+            specifiedDelimiter = Regex.Match(inputString, extractDelimiterCaptureGroup).ToString(); 
+
             return new char[] { inputString.Substring(2, inputString.LastIndexOf('\n')).ToCharArray()[0]};
         }
 
         private string RemoveDelimiterSpecificationLine(string inputString)
         {
-            var a = Regex.Match(inputString, headerFormat);
-            int headerLength = Regex.Match(inputString, headerFormat).Length;
+            int headerLength = Regex.Match(inputString, headerCaptureGroup).Length;
             return inputString.Substring(headerLength);
         }
 
@@ -99,6 +102,7 @@ namespace StringCalculator
         {
             return input.Replace(delimiter, ",");
         }
+
     }
 
     //public class Calculator
