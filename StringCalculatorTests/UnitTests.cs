@@ -15,8 +15,6 @@ namespace StringCalculatorTests
 
         Calculator calculator = new Calculator();
 
-
-
         [Test]
         [TestCase("", Result = 0)]
         public int Test_Empty_String(string input)
@@ -25,6 +23,7 @@ namespace StringCalculatorTests
 
             return x;
         }
+
 
         [Test]
         [TestCase("", Result = 0)]
@@ -37,6 +36,7 @@ namespace StringCalculatorTests
             return x;
         }
 
+
         [Test]
         [TestCase("0,0", Result = 0)]
         [TestCase("0,1", Result = 1)]
@@ -47,6 +47,7 @@ namespace StringCalculatorTests
 
             return x;
         }
+
 
         [Test]
         [TestCase("0,0,0", Result = 0)]
@@ -60,6 +61,7 @@ namespace StringCalculatorTests
             return x;
         }
 
+
         [Test]
         [TestCase("0\n0\n0", Result = 0)]
         [TestCase("0,1\n2", Result = 3)]
@@ -70,6 +72,7 @@ namespace StringCalculatorTests
 
             return x;
         }
+
 
         [Test]
         [TestCase("//;\n1;2", Result = 3)]
@@ -88,6 +91,7 @@ namespace StringCalculatorTests
             return x;
         }
 
+
         [Test]
         [TestCase("-1", "-1")]
         [TestCase("-1,-2", "-1,-2")]
@@ -95,16 +99,16 @@ namespace StringCalculatorTests
         [TestCase("//-\n1--1", "-1")]
         [TestCase("//-\n1--1-1", "-1")]
         [TestCase("//\n\n1\n-1", "-1")]
+        [TestCase("//;\n1\n-1;2", "-1")]
         [TestCase("//\n\n1\n-1\n-2\n3", "-1,-2")]
         [TestCase("//;*...\n-1", "-1")]
         public void Test_NegativesThrowArguementExceptionWithMessage(string input, string expectedMessage)
         {
-
             var exception = Assert.Throws<ArgumentException>(() => calculator.Add(input));
 
             Assert.AreEqual(expectedMessage, exception.Message);
-
         }
+
 
         [Test]
         [TestCase("1,1000", Result = 1001)]
@@ -116,6 +120,7 @@ namespace StringCalculatorTests
 
             return x;
         }
+
 
         [Test]
         [TestCase("//..\n1..2", Result = 3)]
@@ -142,6 +147,7 @@ namespace StringCalculatorTests
             return x;
         }
 
+
         [Test]
         [TestCase("//..::\n1..2::3", Result = 6)]
         [TestCase("//abcd\n1ab2cd3", Result = 6)]
@@ -161,15 +167,13 @@ namespace StringCalculatorTests
         [TestCase("//.\n1.-2", "-2")]
         [TestCase("//-;\n1--2;3", "-2")]
         [TestCase("//-;\n1-;-2;3", "-2")]
-        [TestCase("//abcdefgh-;ij\n1fgh--2;3", "-2")]
+        [TestCase("//abcdefgh-;ij\n-1fgh--2;3", "-1,-2")]
         //[TestCase("//-;\n1-;-2;3", "-2")]
         public void Test_NegativesThrowArguementExceptionWithMessageWithMultipleCustomDelimiters(string input, string expectedMessage)
         {
-
             var exception = Assert.Throws<ArgumentException>(() => calculator.Add(input));
 
             Assert.AreEqual(expectedMessage, exception.Message);
-
         }
     }
 }

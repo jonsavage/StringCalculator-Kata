@@ -28,7 +28,7 @@ namespace StringCalculator
                 numbers = RemoveDelimiterSpecificationLine(inputString);
             }
 
-            CheckForNegatives(numbers, delimiters);
+            CheckForNegatives(numbers, delimiters); // Short-circuits with ArgumentException
 
             int sum = 0;
             foreach (string number in numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries))
@@ -76,17 +76,12 @@ namespace StringCalculator
 
             string negatives = "";
 
-            if (input[0] == '-')
-            {
-                negatives += Regex.Match(input, @"^-\d*") + ",";
-            }
-
-            var matches = Regex.Matches(input, @"[^\d]-\d");
-
+            //var matches = Regex.Matches(input, @"[^\d]-\d");
+            var matches = Regex.Matches(input, @"(?<=^|\D)-\d");
             
             foreach (var match in matches)
             {
-                negatives += match.ToString().Substring(1) + ",";
+                negatives += match.ToString() + ",";
             }
             return negatives.Substring(0, negatives.Length-1);
         }
