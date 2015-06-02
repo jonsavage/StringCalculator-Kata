@@ -83,7 +83,7 @@ namespace StringCalculatorTests
         [TestCase("//\\\n1\\2", Result = 3)]
         [TestCase("//\v\n1\v2", Result = 3)]
         [TestCase("//-\n1-2", Result = 3)]
-        [TestCase("//-\n1-2-3", Result = 6)]
+        [TestCase("//-\n1-2-3-4-5-6-70-80-90", Result = 261)]
         public int Test_UserSpecifiedDelimiter(string input)
         {
             var x = calculator.Add(input);
@@ -97,16 +97,20 @@ namespace StringCalculatorTests
         [TestCase("-1,-2", "-1,-2")]
         [TestCase("-1,1", "-1")]
         [TestCase("//-\n1--1", "-1")]
-        [TestCase("//-\n1--1-1", "-1")]
+        [TestCase("//-\n1--1-2", "-1")]
         [TestCase("//\n\n1\n-1", "-1")]
+        [TestCase("//\n\n-1\n2", "-1")]
         [TestCase("//;\n1\n-1;2", "-1")]
         [TestCase("//\n\n1\n-1\n-2\n3", "-1,-2")]
         [TestCase("//;*...\n-1", "-1")]
+        [TestCase("//;*...\n-11", "-11")]
+        [TestCase("//;*...\n-11,-3333", "-11,-3333")]
+        [TestCase("//;*...\n-11.-3333.-2;6", "-11,-3333,-2")]
         public void Test_NegativesThrowArguementExceptionWithMessage(string input, string expectedMessage)
         {
             var exception = Assert.Throws<ArgumentException>(() => calculator.Add(input));
 
-            Assert.AreEqual(expectedMessage, exception.Message);
+            Assert.AreEqual("negatives not allowed " + expectedMessage, exception.Message);
         }
 
 
@@ -168,12 +172,11 @@ namespace StringCalculatorTests
         [TestCase("//-;\n1--2;3", "-2")]
         [TestCase("//-;\n1-;-2;3", "-2")]
         [TestCase("//abcdefgh-;ij\n-1fgh--2;3", "-1,-2")]
-        //[TestCase("//-;\n1-;-2;3", "-2")]
         public void Test_NegativesThrowArguementExceptionWithMessageWithMultipleCustomDelimiters(string input, string expectedMessage)
         {
             var exception = Assert.Throws<ArgumentException>(() => calculator.Add(input));
 
-            Assert.AreEqual(expectedMessage, exception.Message);
+            Assert.AreEqual("negatives not allowed " + expectedMessage, exception.Message);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+// http://osherove.com/tdd-kata-1/
 namespace StringCalculator
 {
     public class Calculator
@@ -72,9 +73,9 @@ namespace StringCalculator
 
         private string GetNegatives(string input)
         {
-            string negatives = "";
+            string negatives = "negatives not allowed ";
 
-            var matches = Regex.Matches(input, @"(?<=^|\D)-\d");
+            var matches = Regex.Matches(input, @"(?<=^|\D)-(\d)+");
             
             foreach (var match in matches)
             {
