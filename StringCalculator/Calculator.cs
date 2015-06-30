@@ -36,7 +36,7 @@ namespace StringCalculator
                 sum += ConvertToInt(number) <= 1000 ? ConvertToInt(number) : 0;
             }
             return sum;
-        }
+        } 
 
         private int ConvertToInt(string number)
         {
